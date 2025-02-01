@@ -32,6 +32,6 @@ function procurarCarroEmTodoJogo(nomeDoCarro)
     end
 end
 
--- Defina o nome do carro que você quer procurar (por exemplo, "Mazda4")
-local nomeDoCarro = "Mazda4"
+-- Defina o nome do carro que você quer procurar (por exemplo, "Maxma Fuji")
+local nomeDoCarro = "Maxma Fuji"
 procurarCarroEmTodoJogo(nomeDoCarro)
