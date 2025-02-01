@@ -1,31 +1,37 @@
--- Função para procurar o modelo do carro pelo nome no jogo
-function procurarCarroPeloNome(nomeDoCarro)
-    -- Vamos definir as pastas a serem verificadas
-    local pastasParaProcurar = {
-        game:GetService("ReplicatedStorage"),
-        game:GetService("ServerStorage"),
-        game:GetService("Workspace"),
-    }
-
-    -- Vamos procurar pelo nome do carro nessas pastas
-    for _, pasta in ipairs(pastasParaProcurar) do
-        print("Procurando pelo carro: " .. nomeDoCarro .. " em " .. pasta.Name)
-        
+-- Função para procurar o modelo do carro pelo nome em todo o jogo
+function procurarCarroEmTodoJogo(nomeDoCarro)
+    -- Função recursiva para percorrer todas as pastas do jogo
+    local function procurarEmPastas(pasta)
         -- Verificar todos os objetos na pasta
         for _, item in ipairs(pasta:GetChildren()) do
-            -- Verificar se o item é um modelo com o nome correspondente
+            -- Se o item for um modelo e o nome for o que procuramos, retornamos
             if item:IsA("Model") and item.Name == nomeDoCarro then
                 print("Carro encontrado: " .. item.Name .. " em " .. pasta.Name)
-                -- Você pode retornar o modelo ou realizar outras ações aqui
                 return item
             end
+            
+            -- Se o item for uma pasta, chamamos a função recursivamente
+            if item:IsA("Folder") or item:IsA("Model") then
+                local encontrado = procurarEmPastas(item)
+                if encontrado then
+                    return encontrado
+                end
+            end
         end
+        return nil
     end
 
-    print("Carro não encontrado.")
-    return nil
+    -- Começar a busca em todas as partes do jogo
+    local resultado = procurarEmPastas(game)
+    
+    if resultado then
+        return resultado
+    else
+        print("Carro não encontrado em nenhum lugar.")
+        return nil
+    end
 end
 
 -- Defina o nome do carro que você quer procurar (por exemplo, "Mazda4")
 local nomeDoCarro = "Mazda4"
-procurarCarroPeloNome(nomeDoCarro)
+procurarCarroEmTodoJogo(nomeDoCarro)
